@@ -17,6 +17,8 @@ dokodok mac eth1 eth2 XX:XX:XX:XX:XX:XX
 ```
 ganti XX:XX:XX:XX:XX:XX dg mac address modemmu
 
+run di terminal dulu untuk testing. setelah di taruh di startup biar lock pas booting
+
 thanks
 
 # es_teh
