@@ -1,11 +1,11 @@
 #!/bin/bash
 # tolong hargai karya orang ya
 # jangan di remove credit
-# kodok_loncat ini di buat untuk lock interface yang sering loncat
-# kodok_loncat by Rudi Hartono (github/18rudi)
+# dokodok ini di buat untuk lock interface yang sering loncat
+# dokodok by Rudi Hartono (github/18rudi)
 # contoh penggunaan untuk IP modem 192.168.8.1
-# kodok_loncat ipgt eth1 eth2 192.168.8.255 
-# kodok_loncat mac eth1 eth2 XX:XX:XX:XX:XX:XX
+# dokodok ipgt eth1 eth2 192.168.8.255 
+# dokodok mac eth1 eth2 XX:XX:XX:XX:XX:XX
 
 jenis_kodok="$1"
 kodok_awal="$2"
@@ -35,8 +35,8 @@ echo "mac addres sama, tidak bisa di lock by mac address"
 logger "mac addres sama, tidak bisa di lock by mac address"
 else
 if [ "$mac_awal" = "$mac_kodok" ]; then
-echo "kodok_loncat sudah diam"
-logger "kodok_loncat sudah diam"
+echo "kodok sudah diam"
+logger "kodok sudah diam"
 else
 kodok_refresh
 echo "kodok_loncat sudah sampai tujuan di $mac_kodok" 
@@ -55,12 +55,12 @@ echo "IP gateway sama, ganti dulu IP gateway"
 logger "IP gateway sama, ganti dulu IP gateway"
 else
 if [ "$ipgt_awal" = "$ip_kodok" ]; then
-echo "kodok_loncat sudah diam"
-logger "kodok_loncat sudah diam"
+echo "kodok sudah diam"
+logger "kodok sudah diam"
 else
 kodok_refresh
-echo "kodok_loncat sudah sampai tujuan di $ip_kodok" 
-logger "kodok_loncat sudah sampai tujuan di $ip_kodok" 
+echo "kodok sudah sampai tujuan di $ip_kodok" 
+logger "kodok sudah sampai tujuan di $ip_kodok" 
 fi
 fi
 }
@@ -71,9 +71,9 @@ else
 if [ "$jenis_kodok" = "ipgt" ]; then
 kodok_ip
 else
-echo "format kodok_loncat salah!!! "
+echo "format dokodok salah!!! "
 echo "contoh :"
-echo "kodok_loncat mac interface_awal interface_tujuan mac_modem"
-echo "kodok_loncat ipgt interface_awal interface_tujuan ip_modem"
+echo "dokodok mac interface_awal interface_tujuan mac_modem"
+echo "dokodok ipgt interface_awal interface_tujuan ip_modem"
 fi
 fi
