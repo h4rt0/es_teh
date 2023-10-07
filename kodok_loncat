@@ -1,0 +1,79 @@
+#!/bin/bash
+# tolong hargai karya orang ya
+# jangan di remove credit
+# kodok_loncat ini di buat untuk lock interface yang sering loncat
+# kodok_loncat by Rudi Hartono (github/18rudi)
+# contoh penggunaan untuk IP modem 192.168.8.1
+# kodok_loncat ipgt eth1 eth2 192.168.8.255 
+# kodok_loncat mac eth1 eth2 XX:XX:XX:XX:XX:XX
+
+jenis_kodok="$1"
+kodok_awal="$2"
+kodok_tujuan="$3"
+mac_kodok="$4"
+ip_kodok="$4"
+
+
+
+function kodok_refresh() {
+ip link set $kodok_awal down
+ip link set $kodok_awal name tmp
+ip link set $kodok_tujuan down
+ip link set $kodok_tujuan name $kodok_awal
+ip link set $kodok_awal up
+ip link set tmp name $kodok_tujuan
+ip link set $kodok_tujuan up
+}
+
+
+
+function kodok_mac() {
+mac_awal=$(ip link show dev $kodok_awal | grep link | awk '{print $2}')
+mac_tujuan=$(ip link show dev $kodok_tujuan | grep link | awk '{print $2}')
+if [ "$mac_awal" = "$mac_tujuan" ]; then
+echo "mac addres sama, tidak bisa di lock by mac address"
+logger "mac addres sama, tidak bisa di lock by mac address"
+else
+if [ "$mac_awal" = "$mac_kodok" ]; then
+echo "kodok_loncat sudah diam"
+logger "kodok_loncat sudah diam"
+else
+kodok_refresh
+echo "kodok_loncat sudah sampai tujuan di $mac_kodok" 
+logger "kodok_loncat sudah sampai tujuan di $mac_kodok" 
+fi
+fi
+}
+
+
+function kodok_ip() {
+ipgt_awal=$(ifconfig $kodok_awal | grep 'Bcast' | cut -d: -f3 | awk '{print $1}')
+ipgt_tujuan=$(ifconfig $kodok_tujuan | grep 'Bcast' | cut -d: -f3 | awk '{print $1}')
+
+if [ "$ipgt_awal" = "$ipgt_tujuan" ]; then
+echo "IP gateway sama, ganti dulu IP gateway"
+logger "IP gateway sama, ganti dulu IP gateway"
+else
+if [ "$ipgt_awal" = "$ip_kodok" ]; then
+echo "kodok_loncat sudah diam"
+logger "kodok_loncat sudah diam"
+else
+kodok_refresh
+echo "kodok_loncat sudah sampai tujuan di $ip_kodok" 
+logger "kodok_loncat sudah sampai tujuan di $ip_kodok" 
+fi
+fi
+}
+
+if [ "$jenis_kodok" = "mac" ]; then
+kodok_mac
+else
+if [ "$jenis_kodok" = "ipgt" ]; then
+kodok_ip
+else
+echo "format kodok_loncat salah!!! "
+echo "contoh :"
+echo "kodok_loncat mac interface_awal interface_tujuan mac_modem"
+echo "kodok_loncat ipgt interface_awal interface_tujuan ip_modem"
+fi
+fi
