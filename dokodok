@@ -10,7 +10,7 @@
 jenis_kodok="$1"
 kodok_awal="$2"
 kodok_tujuan="$3"
-mac_kodok="$4"
+mac_kodok="${4^^}"
 ip_kodok="$4"
 
 
@@ -28,8 +28,8 @@ ip link set $kodok_tujuan up
 
 
 function kodok_mac() {
-mac_awal=$(ip link show dev $kodok_awal | grep link | awk '{print $2}')
-mac_tujuan=$(ip link show dev $kodok_tujuan | grep link | awk '{print $2}')
+mac_awal=$(ip link show dev $kodok_awal | grep link | awk '{print toupper($2)}')
+mac_tujuan=$(ip link show dev $kodok_tujuan | grep link | awk '{print toupper($2)}')
 if [ "$mac_awal" = "$mac_tujuan" ]; then
 echo "mac addres sama, tidak bisa di lock by mac address"
 logger "mac addres sama, tidak bisa di lock by mac address"
